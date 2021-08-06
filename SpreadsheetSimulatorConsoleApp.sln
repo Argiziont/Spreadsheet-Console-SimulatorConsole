@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpreadsheetSimulatorConsoleApp", "SpreadsheetSimulatorConsoleApp\SpreadsheetSimulatorConsoleApp.csproj", "{E85BE65A-71F2-476E-BBF5-BF8D0C2CB33A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E85BE65A-71F2-476E-BBF5-BF8D0C2CB33A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E85BE65A-71F2-476E-BBF5-BF8D0C2CB33A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E85BE65A-71F2-476E-BBF5-BF8D0C2CB33A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E85BE65A-71F2-476E-BBF5-BF8D0C2CB33A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {56EBAB52-F826-46A3-9E3C-7B196CA8D671}
+	EndGlobalSection
+EndGlobal
