@@ -13,12 +13,12 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic
 
             if (expression.Interpret(expressionContext) is NumberExpressionValue numberValue)
                 return numberValue.GetValue(expressionContext).ToString();
-
             if (expression.Interpret(expressionContext) is StringExpressionValue stringValue)
                 return stringValue.GetValue(expressionContext);
-            if (expression.Interpret(expressionContext) is EmptyExpressionValue) return string.Empty;
+            if (expression.Interpret(expressionContext) is EmptyExpressionValue) 
+                return string.Empty;
 
-            return "#Couldn't solve cell !";
+            return "#Couldn't solve cell!";
         }
     }
 }

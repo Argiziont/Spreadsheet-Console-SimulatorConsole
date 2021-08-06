@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using SpreadsheetSimulatorConsoleApp.CellExpressionLogic;
 using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
-using SpreadsheetSimulatorConsoleApp.Exceptions;
 
 namespace SpreadsheetSimulatorConsoleApp.ContextLogic
 {
