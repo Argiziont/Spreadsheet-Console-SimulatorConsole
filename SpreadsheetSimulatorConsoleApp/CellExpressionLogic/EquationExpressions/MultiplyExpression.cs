@@ -24,8 +24,15 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.EquationExpressions
                 return new NumberExpressionValue(leftExpression.GetValue(expressionContext) *
                                                  rightExpression.GetValue(expressionContext));
 
+            if (_leftExpression.Interpret(expressionContext) is StringExpressionValue &&
+                _rightExpression.Interpret(expressionContext) is StringExpressionValue)
+                return new StringExpressionValue("#Couldn't multiply strings");
 
-            return new StringExpressionValue("#Couldn't subtract different types");
+            if (_leftExpression.Interpret(expressionContext) is EmptyExpressionValue &&
+                _rightExpression.Interpret(expressionContext) is EmptyExpressionValue)
+                return new StringExpressionValue("#Couldn't multiply empty cells");
+
+            return new StringExpressionValue("#Couldn't multiply different types");
         }
     }
 }

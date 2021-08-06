@@ -28,6 +28,10 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.EquationExpressions
                 _rightExpression.Interpret(expressionContext) is StringExpressionValue)
                 return new StringExpressionValue("#Couldn't subtract strings");
 
+            if (_leftExpression.Interpret(expressionContext) is EmptyExpressionValue &&
+                _rightExpression.Interpret(expressionContext) is EmptyExpressionValue)
+                return new StringExpressionValue("#Couldn't subtract empty cells");
+
             return new StringExpressionValue("#Couldn't subtract different types");
         }
     }

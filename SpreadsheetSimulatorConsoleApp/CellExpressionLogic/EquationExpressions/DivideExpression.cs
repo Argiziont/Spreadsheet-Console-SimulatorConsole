@@ -24,8 +24,15 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.EquationExpressions
                 return new NumberExpressionValue(leftExpression.GetValue(expressionContext) /
                                                  rightExpression.GetValue(expressionContext));
 
+            if (_leftExpression.Interpret(expressionContext) is StringExpressionValue &&
+                _rightExpression.Interpret(expressionContext) is StringExpressionValue)
+                return new StringExpressionValue("#Couldn't divide strings");
 
-            return new StringExpressionValue("#Couldn't subtract different types");
+            if (_leftExpression.Interpret(expressionContext) is EmptyExpressionValue &&
+                _rightExpression.Interpret(expressionContext) is EmptyExpressionValue)
+                return new StringExpressionValue("#Couldn't divide empty cells");
+
+            return new StringExpressionValue("#Couldn't divide different types");
         }
     }
 }

@@ -4,7 +4,7 @@ using SpreadsheetSimulatorConsoleApp.ContextLogic;
 
 namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic
 {
-    internal class StringExpressionValue : IExpression, IVariable<string>
+    public class StringExpressionValue : IExpression, IVariable<string>
     {
         private readonly string _name;
         private readonly string _variable;
