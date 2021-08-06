@@ -15,15 +15,12 @@ namespace SpreadsheetSimulatorConsoleApp.ContextLogic
             return expressionContext;
         }
 
-        private static void FillContext(IExpressionContext expressionContext, IEnumerable<Dictionary<string, string>> tableDictionary)
+        private static void FillContext(IExpressionContext expressionContext,
+            IEnumerable<Dictionary<string, string>> tableDictionary)
         {
             foreach (var column in tableDictionary)
-            {
-                foreach ((string cellName, string cellValue) in column)
-                {
-                    expressionContext.SetVariable(new ExpressionVariable(cellName, TableParser.ParseCell(cellValue)));
-                }
-            }
+            foreach ((string cellName, string cellValue) in column)
+                expressionContext.SetVariable(new ExpressionVariable(cellName, TableParser.ParseCell(cellValue)));
         }
     }
 }

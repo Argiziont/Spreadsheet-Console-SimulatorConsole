@@ -12,10 +12,7 @@ namespace SpreadsheetSimulatorConsoleApp.Extensions
             var enumerators = source.Select(x => x.GetEnumerator()).ToArray();
             try
             {
-                while (enumerators.All(x => x.MoveNext()))
-                {
-                    yield return enumerators.Select(x => x.Current).ToArray();
-                }
+                while (enumerators.All(x => x.MoveNext())) yield return enumerators.Select(x => x.Current).ToArray();
             }
             finally
             {
@@ -23,6 +20,5 @@ namespace SpreadsheetSimulatorConsoleApp.Extensions
                     enumerator.Dispose();
             }
         }
-
     }
 }

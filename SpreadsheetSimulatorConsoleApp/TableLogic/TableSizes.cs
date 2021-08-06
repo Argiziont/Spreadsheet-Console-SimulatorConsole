@@ -10,7 +10,6 @@
 
         public TableSizes()
         {
-            
         }
 
         public int Width { get; set; }

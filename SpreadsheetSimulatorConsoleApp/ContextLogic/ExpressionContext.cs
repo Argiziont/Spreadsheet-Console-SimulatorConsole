@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using SpreadsheetSimulatorConsoleApp.CellExpressionLogic;
 using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
-using System.Collections.Generic;
 using SpreadsheetSimulatorConsoleApp.Exceptions;
 
 namespace SpreadsheetSimulatorConsoleApp.ContextLogic
@@ -20,7 +20,6 @@ namespace SpreadsheetSimulatorConsoleApp.ContextLogic
             try
             {
                 return _variables[expressionName];
-
             }
             catch (CircularReferenceException e)
             {
@@ -36,6 +35,5 @@ namespace SpreadsheetSimulatorConsoleApp.ContextLogic
             else
                 _variables.Add(expressionVariable.Name, expressionVariable.Expression);
         }
-
     }
 }

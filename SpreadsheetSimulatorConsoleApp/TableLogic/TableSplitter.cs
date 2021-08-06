@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic;
 
 namespace SpreadsheetSimulatorConsoleApp.TableLogic
 {
@@ -25,21 +24,20 @@ namespace SpreadsheetSimulatorConsoleApp.TableLogic
             return new TableSizes(tableWidth, tableHeight);
         }
 
-        public static IEnumerable<Dictionary<string, string>> GetTableDictionary(string inputText, TableSizes tableSizes)
+        public static IEnumerable<Dictionary<string, string>> GetTableDictionary(string inputText,
+            TableSizes tableSizes)
         {
             var dictionaries = new Dictionary<string, string>[tableSizes.Width];
 
             var tableTextArray = inputText.Split(RowSplitter).ToList();
-            
-            string[][] tableCells=tableTextArray.Select(row => row.Split(ColumnSplitter).ToArray()).ToArray();
+
+            string[][] tableCells = tableTextArray.Select(row => row.Split(ColumnSplitter).ToArray()).ToArray();
 
             for (int i = 0; i < tableSizes.Width; i++)
             {
                 dictionaries[i] = new Dictionary<string, string>();
                 for (int j = 1; j <= tableSizes.Height; j++)
-                {
                     dictionaries[i].Add($"{Convert.ToChar(AsciiACharIndex + i)}{j}", tableCells[j - 1][i]);
-                }
             }
 
             return dictionaries;

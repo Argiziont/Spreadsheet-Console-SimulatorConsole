@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
+﻿using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
 using SpreadsheetSimulatorConsoleApp.ContextLogic;
 
 namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.EquationExpressions
@@ -19,9 +18,8 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.EquationExpressions
         {
             if (_leftExpression.Interpret(expressionContext) is NumberExpressionValue leftExpression &&
                 _rightExpression.Interpret(expressionContext) is NumberExpressionValue rightExpression)
-            {
-                return new NumberExpressionValue(leftExpression.GetValue(expressionContext) * rightExpression.GetValue(expressionContext));
-            }
+                return new NumberExpressionValue(leftExpression.GetValue(expressionContext) *
+                                                 rightExpression.GetValue(expressionContext));
 
 
             return new StringExpressionValue("#Couldn't subtract different types");

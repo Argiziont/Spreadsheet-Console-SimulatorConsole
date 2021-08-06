@@ -2,16 +2,14 @@
 
 namespace SpreadsheetSimulatorConsoleApp.Exceptions
 {
-    public class CircularReferenceException:Exception
+    public class CircularReferenceException : Exception
     {
         public CircularReferenceException()
         {
-            
         }
 
-        public CircularReferenceException(string message):base(message)
+        public CircularReferenceException(string message) : base(message)
         {
-            
         }
     }
 }

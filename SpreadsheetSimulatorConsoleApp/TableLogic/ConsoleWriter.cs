@@ -3,7 +3,7 @@ using SpreadsheetSimulatorConsoleApp.TableLogic.Interfaces;
 
 namespace SpreadsheetSimulatorConsoleApp.TableLogic
 {
-    public class ConsoleWriter:IWritable
+    public class ConsoleWriter : IWritable
     {
         public void Write(string text)
         {

@@ -9,6 +9,7 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic
             Name = name;
             Expression = expression;
         }
+
         public ExpressionVariable(string name)
         {
             Name = name;

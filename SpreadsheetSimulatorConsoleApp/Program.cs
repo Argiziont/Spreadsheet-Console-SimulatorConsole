@@ -9,8 +9,6 @@ using SpreadsheetSimulatorConsoleApp.Exceptions;
 using SpreadsheetSimulatorConsoleApp.Extensions;
 using SpreadsheetSimulatorConsoleApp.TableLogic;
 
-// ReSharper disable CommentTypo
-
 namespace SpreadsheetSimulatorConsoleApp
 {
     internal static class Program
@@ -21,10 +19,7 @@ namespace SpreadsheetSimulatorConsoleApp
 
             TableSizes tableSizes = TableSplitter.GetTableSizes(text);
             StringBuilder tableBuilder = new StringBuilder();
-            for (int i = 0; i < tableSizes.Height; i++)
-            {
-                tableBuilder.AppendLine(Console.ReadLine());
-            }
+            for (int i = 0; i < tableSizes.Height; i++) tableBuilder.AppendLine(Console.ReadLine());
 
             text = tableBuilder.ToString();
 
@@ -36,18 +31,19 @@ namespace SpreadsheetSimulatorConsoleApp
              */
 
 
-
             var tableSet = TableSplitter.GetTableDictionary(text, tableSizes);
 
-            var tableDictionary = tableSet as Dictionary<string, string>[] ?? tableSet.ToArray();// Enumerating dictionary to array
+            var tableDictionary =
+                tableSet as Dictionary<string, string>[] ?? tableSet.ToArray(); // Enumerating dictionary to array
 
             ExpressionContext expressionContext = ContextFactory<ExpressionContext>.CreateContext(tableDictionary);
-            
+
 
             PrintOutput(tableDictionary, expressionContext);
         }
 
-        private static void PrintOutput(IEnumerable<Dictionary<string, string>> tableDictionary, ExpressionContext expressionContext)
+        private static void PrintOutput(IEnumerable<Dictionary<string, string>> tableDictionary,
+            ExpressionContext expressionContext)
         {
             StringBuilder tableBuilder = new StringBuilder();
 
@@ -62,7 +58,8 @@ namespace SpreadsheetSimulatorConsoleApp
                     {
                         IExpression
                             interpretedCell =
-                                contextCell.Interpret(expressionContext); //Interpreting all cells and outputing to console
+                                contextCell.Interpret(
+                                    expressionContext); //Interpreting all cells and outputing to console
                         tableBuilder.Append(ExpressionValueResolver.Resolve(expressionContext, interpretedCell) + "\t");
                     }
                     catch (CircularReferenceException e)
@@ -77,5 +74,4 @@ namespace SpreadsheetSimulatorConsoleApp
             Console.WriteLine(tableBuilder.ToString());
         }
     }
-
 }
