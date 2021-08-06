@@ -7,39 +7,36 @@ namespace SpreadsheetSimulatorConsoleApp.TableLogic
 {
     public static class TableSplitter
     {
-        private const char RowSplitter = '\n';
+        private const string RowSplitter = "\r\n";
         private const char ColumnSplitter = '\t';
         private const int AsciiACharIndex = 65;
 
         public static TableSizes GetTableSizes(string inputText)
         {
             //
-            var tableTextArray = inputText.Split(RowSplitter).ToList();
 
+            var tableTextArray = inputText.Split(RowSplitter).ToList();
             //Evaluating size of the table
             var tableSize = tableTextArray.First().Split(ColumnSplitter).ToList();
 
-            int tableWidth = Convert.ToInt32(tableSize.First());
-            int tableHeight = Convert.ToInt32(tableSize.Last());
+            int tableWidth = Convert.ToInt32(tableSize.Last());
+            int tableHeight = Convert.ToInt32(tableSize.First());
 
             return new TableSizes(tableWidth, tableHeight);
         }
 
         public static IEnumerable<Dictionary<string, string>> GetTableDictionary(string inputText, TableSizes tableSizes)
         {
-            var dictionaries = new Dictionary<string, string>[tableSizes.Height];
+            var dictionaries = new Dictionary<string, string>[tableSizes.Width];
 
             var tableTextArray = inputText.Split(RowSplitter).ToList();
-
-            //Evaluating cells
-            tableTextArray.Remove(tableTextArray.First());//Removing line with sizes of table
-
+            
             string[][] tableCells=tableTextArray.Select(row => row.Split(ColumnSplitter).ToArray()).ToArray();
 
-            for (int i = 0; i < tableSizes.Height; i++)
+            for (int i = 0; i < tableSizes.Width; i++)
             {
                 dictionaries[i] = new Dictionary<string, string>();
-                for (int j = 1; j <= tableSizes.Width; j++)
+                for (int j = 1; j <= tableSizes.Height; j++)
                 {
                     dictionaries[i].Add($"{Convert.ToChar(AsciiACharIndex + i)}{j}", tableCells[j - 1][i]);
                 }

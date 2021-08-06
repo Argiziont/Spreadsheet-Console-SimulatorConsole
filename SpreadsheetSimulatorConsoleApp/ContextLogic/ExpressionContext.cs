@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using SpreadsheetSimulatorConsoleApp.CellExpressionLogic;
 using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
+using System.Collections.Generic;
+using SpreadsheetSimulatorConsoleApp.Exceptions;
 
 namespace SpreadsheetSimulatorConsoleApp.ContextLogic
 {
-    public class ExpressionContext:IExpressionContext
+    public class ExpressionContext : IExpressionContext
     {
         private readonly Dictionary<string, IExpression> _variables;
-       
+
         public ExpressionContext()
         {
             _variables = new Dictionary<string, IExpression>();
@@ -15,7 +17,16 @@ namespace SpreadsheetSimulatorConsoleApp.ContextLogic
 
         public IExpression GetVariable(string expressionName)
         {
-            return _variables[expressionName];
+            try
+            {
+                return _variables[expressionName];
+
+            }
+            catch (CircularReferenceException e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public void SetVariable(ExpressionVariable expressionVariable)

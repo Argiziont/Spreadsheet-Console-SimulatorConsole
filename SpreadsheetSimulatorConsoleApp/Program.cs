@@ -5,6 +5,7 @@ using System.Text;
 using SpreadsheetSimulatorConsoleApp.CellExpressionLogic;
 using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
 using SpreadsheetSimulatorConsoleApp.ContextLogic;
+using SpreadsheetSimulatorConsoleApp.Exceptions;
 using SpreadsheetSimulatorConsoleApp.Extensions;
 using SpreadsheetSimulatorConsoleApp.TableLogic;
 
@@ -16,23 +17,25 @@ namespace SpreadsheetSimulatorConsoleApp
     {
         private static void Main()
         {
+            string text = Console.ReadLine();
 
-            string text =
-                "3\t4\n" +
-                "12\t=C2\t3\t'Sample\n" +
-                "=A1+B1*C1/5\t=A2*B1\t=B3-C3\t'Spread\n" +
-                "'Test\t=4-3\t5\t'Test";
+            TableSizes tableSizes = TableSplitter.GetTableSizes(text);
+            StringBuilder tableBuilder = new StringBuilder();
+            for (int i = 0; i < tableSizes.Height; i++)
+            {
+                tableBuilder.AppendLine(Console.ReadLine());
+            }
+
+            text = tableBuilder.ToString();
 
             /*
              *3             4
-             *12            =C2          3      'Sample
-             *=A1+B1*C1/5   =A2*B1       =B3-C3 'Spread
-             *'Test         =4-3         5       
+             *12            =C2          3          'Sample
+             *=A1+B1*C1/5   =A2*B1       =B3-C3     'Spread
+             *'Test         =4-3         5          'Sheet       
              */
 
-            //
 
-            TableSizes tableSizes = TableSplitter.GetTableSizes(text);
 
             var tableSet = TableSplitter.GetTableDictionary(text, tableSizes);
 
@@ -40,22 +43,39 @@ namespace SpreadsheetSimulatorConsoleApp
 
             ExpressionContext expressionContext = ContextFactory<ExpressionContext>.CreateContext(tableDictionary);
             
+
+            PrintOutput(tableDictionary, expressionContext);
+        }
+
+        private static void PrintOutput(IEnumerable<Dictionary<string, string>> tableDictionary, ExpressionContext expressionContext)
+        {
             StringBuilder tableBuilder = new StringBuilder();
 
+            tableBuilder.AppendLine("\n-------Results-------\n");
             foreach (var column in tableDictionary.Transpose())
             {
                 foreach ((string cellName, string _) in column)
                 {
-                    IExpression interpretedCell = expressionContext.GetVariable(cellName).Interpret(expressionContext);//Interpreting all cells and outputing to console
+                    IExpression contextCell = expressionContext.GetVariable(cellName);
 
-                    tableBuilder.Append(ExpressionValueResolver.Resolve(expressionContext, interpretedCell) + "\t");
-
+                    try
+                    {
+                        IExpression
+                            interpretedCell =
+                                contextCell.Interpret(expressionContext); //Interpreting all cells and outputing to console
+                        tableBuilder.Append(ExpressionValueResolver.Resolve(expressionContext, interpretedCell) + "\t");
+                    }
+                    catch (CircularReferenceException e)
+                    {
+                        tableBuilder.Append(e.Message + "\t");
+                    }
                 }
+
                 tableBuilder.AppendLine();
             }
+
             Console.WriteLine(tableBuilder.ToString());
         }
-       
     }
 
 }
