@@ -8,7 +8,8 @@ namespace SpreadsheetSimulatorConsoleApp.Extensions
     {
         public static IEnumerable<IEnumerable<T>> Transpose<T>(this IEnumerable<IEnumerable<T>> source)
         {
-            if (source == null) throw new ArgumentNullException("source");
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
             var enumerators = source.Select(x => x.GetEnumerator()).ToArray();
             try
             {

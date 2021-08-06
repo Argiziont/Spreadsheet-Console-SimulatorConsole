@@ -17,19 +17,15 @@ namespace SpreadsheetSimulatorConsoleApp.ContextLogic
 
         public IExpression GetVariable(string expressionName)
         {
-            try
-            {
-                return _variables[expressionName];
-            }
-            catch (CircularReferenceException e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            if (expressionName == null) throw new ArgumentNullException(nameof(expressionName));
+
+            return _variables[expressionName];
         }
 
         public void SetVariable(ExpressionVariable expressionVariable)
         {
+            if (expressionVariable == null) throw new ArgumentNullException(nameof(expressionVariable));
+
             if (_variables.ContainsKey(expressionVariable.Name))
                 _variables[expressionVariable.Name] = expressionVariable.Expression;
             else

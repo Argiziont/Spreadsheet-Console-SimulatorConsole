@@ -12,6 +12,7 @@ namespace SpreadsheetSimulatorConsoleApp.TableLogic
 
         public static TableSizes GetTableSizes(string inputText)
         {
+            if (inputText == null) throw new ArgumentNullException(nameof(inputText));
             //
 
             var tableTextArray = inputText.Split(RowSplitter).ToList();
@@ -27,6 +28,9 @@ namespace SpreadsheetSimulatorConsoleApp.TableLogic
         public static IEnumerable<Dictionary<string, string>> GetTableDictionary(string inputText,
             TableSizes tableSizes)
         {
+            if (inputText == null) throw new ArgumentNullException(nameof(inputText));
+            if (tableSizes == null) throw new ArgumentNullException(nameof(tableSizes));
+
             var dictionaries = new Dictionary<string, string>[tableSizes.Width];
 
             var tableTextArray = inputText.Split(RowSplitter).ToList();

@@ -1,4 +1,5 @@
-﻿using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
+﻿using System;
+using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
 using SpreadsheetSimulatorConsoleApp.ContextLogic;
 
 namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic
@@ -7,6 +8,9 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic
     {
         public static string Resolve(ExpressionContext expressionContext, IExpression expression)
         {
+            if (expressionContext == null) throw new ArgumentNullException(nameof(expressionContext));
+            if (expression == null) throw new ArgumentNullException(nameof(expression));
+
             if (expression.Interpret(expressionContext) is NumberExpressionValue numberValue)
                 return numberValue.GetValue(expressionContext).ToString();
 

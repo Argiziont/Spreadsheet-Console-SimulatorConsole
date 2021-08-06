@@ -1,4 +1,5 @@
-﻿using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
+﻿using System;
+using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
 using SpreadsheetSimulatorConsoleApp.ContextLogic;
 
 namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic
@@ -20,6 +21,8 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic
 
         public IExpression Interpret(ExpressionContext expressionContext)
         {
+            if (expressionContext == null) throw new ArgumentNullException(nameof(expressionContext));
+
             IExpression resultingExpression =
                 _name != null ? expressionContext.GetVariable(_name).Interpret(expressionContext) : this;
 

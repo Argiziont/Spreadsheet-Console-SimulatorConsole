@@ -1,4 +1,5 @@
-﻿using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
+﻿using System;
+using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
 using SpreadsheetSimulatorConsoleApp.ContextLogic;
 using SpreadsheetSimulatorConsoleApp.Exceptions;
 
@@ -11,6 +12,8 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic
 
         public NumberExpressionValue(ExpressionVariable expressionVariable)
         {
+            if (expressionVariable == null) throw new ArgumentNullException(nameof(expressionVariable));
+
             _name = expressionVariable.Name;
         }
 
@@ -21,6 +24,8 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic
 
         public IExpression Interpret(ExpressionContext expressionContext)
         {
+            if (expressionContext == null) throw new ArgumentNullException(nameof(expressionContext));
+
             if (_name != null && this == expressionContext.GetVariable(_name))
                 throw new CircularReferenceException("#Cell contains circular reference");
 

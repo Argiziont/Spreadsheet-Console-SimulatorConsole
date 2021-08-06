@@ -1,4 +1,5 @@
-﻿using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
+﻿using System;
+using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
 using SpreadsheetSimulatorConsoleApp.ContextLogic;
 
 namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.EquationExpressions
@@ -10,12 +11,14 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.EquationExpressions
 
         public SubtractExpression(IExpression left, IExpression right)
         {
-            _leftExpression = left;
-            _rightExpression = right;
+            _leftExpression = left ?? throw new ArgumentNullException(nameof(left));
+            _rightExpression = right ?? throw new ArgumentNullException(nameof(right));
         }
 
         public IExpression Interpret(ExpressionContext expressionContext)
         {
+            if (expressionContext == null) throw new ArgumentNullException(nameof(expressionContext));
+
             if (_leftExpression.Interpret(expressionContext) is NumberExpressionValue leftNumberExpression &&
                 _rightExpression.Interpret(expressionContext) is NumberExpressionValue rightNumberExpression)
                 return new NumberExpressionValue(leftNumberExpression.GetValue(expressionContext) -

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using SpreadsheetSimulatorConsoleApp.CellExpressionLogic;
 using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.EquationExpressions;
 using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
@@ -11,18 +12,26 @@ namespace SpreadsheetSimulatorConsoleApp.TableLogic
         //If number             => NumberExpression
         //If something with '   => StringExpression
         //If something with =   => Expression
+        //Else                  => WrongFormat
 
         public static IExpression ParseCell(string cellContent)
         {
+            if (cellContent == null) throw new ArgumentNullException(nameof(cellContent));
             if (cellContent == string.Empty) return new EmptyExpressionValue();
+
             if (int.TryParse(cellContent, out int value)) return new NumberExpressionValue(value);
             if (cellContent.First() == '\'') return new StringExpressionValue(cellContent[1..]);
-            return SolveEquation(cellContent[1..]);
+            if (cellContent.First() == '=') return SolveEquation(cellContent[1..]);
+
+            return new StringExpressionValue("#Cell has wrong format");
+
         }
 
         //  ‘+’ | ‘-‘ | ‘*’ | ‘/’ 
         private static IExpression SolveEquation(string equation)
         {
+            if (equation == null) throw new ArgumentNullException(nameof(equation));
+
             if (equation.Split('-').Length > 1) //We have subtract operation
             {
                 string[] splittedEquation = equation.Split('-', 2);
@@ -50,7 +59,6 @@ namespace SpreadsheetSimulatorConsoleApp.TableLogic
                 return new DivideExpression(SolveEquation(splittedEquation.First()),
                     SolveEquation(splittedEquation.Last()));
             }
-
 
             //If it isn't operation, it's just a number
             return int.TryParse(equation, out int value)

@@ -45,6 +45,9 @@ namespace SpreadsheetSimulatorConsoleApp
         private static void PrintOutput(IEnumerable<Dictionary<string, string>> tableDictionary,
             ExpressionContext expressionContext)
         {
+            if (tableDictionary == null) throw new ArgumentNullException(nameof(tableDictionary));
+            if (expressionContext == null) throw new ArgumentNullException(nameof(expressionContext));
+
             StringBuilder tableBuilder = new StringBuilder();
 
             tableBuilder.AppendLine("\n-------Results-------\n");
