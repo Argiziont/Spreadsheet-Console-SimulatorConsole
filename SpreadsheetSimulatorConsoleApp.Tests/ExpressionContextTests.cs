@@ -1,5 +1,6 @@
 ﻿using System;
 using SpreadsheetSimulatorConsoleApp.CellExpressionLogic;
+using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues;
 using SpreadsheetSimulatorConsoleApp.ContextLogic;
 using Xunit;
 

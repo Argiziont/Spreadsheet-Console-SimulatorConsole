@@ -1,8 +1,8 @@
 ﻿using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
 
-namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic
+namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues
 {
-    public class ExpressionVariable
+    public class ExpressionVariable: IExpressionVariable
     {
         public ExpressionVariable(string name, IExpression expression)
         {
@@ -15,7 +15,7 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic
             Name = name;
         }
 
-        public string Name { get; set; }
-        public IExpression Expression { get; set; }
+        public string Name { get; }
+        public IExpression Expression { get; }
     }
 }

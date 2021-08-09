@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SpreadsheetSimulatorConsoleApp.CellExpressionLogic;
+using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues;
 using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
 using SpreadsheetSimulatorConsoleApp.ContextLogic;
 using SpreadsheetSimulatorConsoleApp.Exceptions;

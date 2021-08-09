@@ -2,37 +2,36 @@
 using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
 using SpreadsheetSimulatorConsoleApp.ContextLogic;
 
-namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic
+namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues
 {
-    public class StringExpressionValue : IExpression, IVariable<string>
+    public class EmptyExpressionValue : IExpression, IVariable<string>
     {
         private readonly string _name;
         private readonly string _variable;
 
-        public StringExpressionValue(ExpressionVariable expressionVariable)
+        public EmptyExpressionValue(IExpressionVariable expressionVariable)
         {
-            if (expressionVariable == null) throw new ArgumentNullException(nameof(expressionVariable));
-
             _name = expressionVariable.Name;
         }
 
-        public StringExpressionValue(string variable)
+        public EmptyExpressionValue()
         {
-            _variable = variable;
+            _variable = string.Empty;
         }
 
-        public IExpression Interpret(ExpressionContext expressionContext)
+        public IExpression Interpret(IExpressionContext expressionContext)
         {
             if (expressionContext == null) throw new ArgumentNullException(nameof(expressionContext));
+
             IExpression resultingExpression =
                 _name != null ? expressionContext.GetVariable(_name).Interpret(expressionContext) : this;
 
-            return !(resultingExpression is StringExpressionValue)
+            return !(resultingExpression is EmptyExpressionValue)
                 ? resultingExpression.Interpret(expressionContext)
                 : resultingExpression;
         }
 
-        public string GetValue(ExpressionContext expressionContext)
+        public string GetValue(IExpressionContext expressionContext)
         {
             return _variable;
         }

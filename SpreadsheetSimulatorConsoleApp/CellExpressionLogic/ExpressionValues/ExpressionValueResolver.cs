@@ -2,11 +2,11 @@
 using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
 using SpreadsheetSimulatorConsoleApp.ContextLogic;
 
-namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic
+namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues
 {
     public static class ExpressionValueResolver
     {
-        public static string Resolve(ExpressionContext expressionContext, IExpression expression)
+        public static string Resolve(IExpressionContext expressionContext, IExpression expression)
         {
             if (expressionContext == null) throw new ArgumentNullException(nameof(expressionContext));
             if (expression == null) throw new ArgumentNullException(nameof(expression));

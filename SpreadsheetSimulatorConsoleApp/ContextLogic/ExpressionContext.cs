@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SpreadsheetSimulatorConsoleApp.CellExpressionLogic;
+using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues;
 using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
 
 namespace SpreadsheetSimulatorConsoleApp.ContextLogic
@@ -21,7 +22,7 @@ namespace SpreadsheetSimulatorConsoleApp.ContextLogic
             return _variables[expressionName];
         }
 
-        public void SetVariable(ExpressionVariable expressionVariable)
+        public void SetVariable(IExpressionVariable expressionVariable)
         {
             if (expressionVariable == null) throw new ArgumentNullException(nameof(expressionVariable));
 

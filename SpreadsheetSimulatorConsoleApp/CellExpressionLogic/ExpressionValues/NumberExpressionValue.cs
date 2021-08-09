@@ -3,14 +3,14 @@ using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
 using SpreadsheetSimulatorConsoleApp.ContextLogic;
 using SpreadsheetSimulatorConsoleApp.Exceptions;
 
-namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic
+namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues
 {
     public class NumberExpressionValue : IExpression, IVariable<int>
     {
         private readonly string _name;
         private readonly int _variable;
 
-        public NumberExpressionValue(ExpressionVariable expressionVariable)
+        public NumberExpressionValue(IExpressionVariable expressionVariable)
         {
             if (expressionVariable == null) throw new ArgumentNullException(nameof(expressionVariable));
 
@@ -22,7 +22,7 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic
             _variable = variable;
         }
 
-        public IExpression Interpret(ExpressionContext expressionContext)
+        public IExpression Interpret(IExpressionContext expressionContext)
         {
             if (expressionContext == null) throw new ArgumentNullException(nameof(expressionContext));
 
@@ -37,7 +37,7 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic
                 : resultingExpression;
         }
 
-        public int GetValue(ExpressionContext expressionContext)
+        public int GetValue(IExpressionContext expressionContext)
         {
             return _variable;
         }

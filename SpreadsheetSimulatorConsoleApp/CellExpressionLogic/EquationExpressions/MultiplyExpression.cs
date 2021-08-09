@@ -1,4 +1,5 @@
 ﻿using System;
+using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues;
 using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
 using SpreadsheetSimulatorConsoleApp.ContextLogic;
 
@@ -15,7 +16,7 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.EquationExpressions
             _rightExpression = right ?? throw new ArgumentNullException(nameof(right));
         }
 
-        public IExpression Interpret(ExpressionContext expressionContext)
+        public IExpression Interpret(IExpressionContext expressionContext)
         {
             if (expressionContext == null) throw new ArgumentNullException(nameof(expressionContext));
 
