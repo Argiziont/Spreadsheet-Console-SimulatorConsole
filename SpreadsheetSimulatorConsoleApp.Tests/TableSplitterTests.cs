@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.EquationExpressions;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
 using SpreadsheetSimulatorConsoleApp.ContextLogic;
 using SpreadsheetSimulatorConsoleApp.TableLogic;
 using Xunit;

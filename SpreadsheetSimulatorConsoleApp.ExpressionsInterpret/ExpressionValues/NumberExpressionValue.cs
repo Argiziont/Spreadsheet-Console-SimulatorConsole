@@ -1,22 +1,22 @@
 ﻿using System;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
-using SpreadsheetSimulatorConsoleApp.ContextLogic;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.Exceptions;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.Interfaces;
 
-namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues
+namespace SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.ExpressionValues
 {
-    public class StringExpressionValue : IExpression, IVariable<string>
+    public class NumberExpressionValue : IExpression, IVariable<int>
     {
         private readonly string _name;
-        private readonly string _value;
+        private readonly int _value;
 
-        public StringExpressionValue(IExpressionVariable expressionVariable)
+        public NumberExpressionValue(IExpressionVariable expressionVariable)
         {
             if (expressionVariable == null) throw new ArgumentNullException(nameof(expressionVariable));
 
             _name = expressionVariable.Name;
         }
 
-        public StringExpressionValue(string value)
+        public NumberExpressionValue(int value)
         {
             _value = value;
         }
@@ -24,15 +24,19 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues
         public IExpression Interpret(IExpressionContext expressionContext)
         {
             if (expressionContext == null) throw new ArgumentNullException(nameof(expressionContext));
+
+            if (_name != null && this == expressionContext.GetVariable(_name))
+                throw new CircularReferenceException("#Cell contains circular reference");
+
             IExpression resultingExpression =
                 _name != null ? expressionContext.GetVariable(_name).Interpret(expressionContext) : this;
 
-            return !(resultingExpression is StringExpressionValue)
+            return !(resultingExpression is NumberExpressionValue)
                 ? resultingExpression.Interpret(expressionContext)
                 : resultingExpression;
         }
 
-        public string GetValue(IExpressionContext expressionContext)
+        public int GetValue(IExpressionContext expressionContext)
         {
             return _value;
         }

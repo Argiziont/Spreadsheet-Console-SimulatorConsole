@@ -1,9 +1,8 @@
 ﻿using System;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
-using SpreadsheetSimulatorConsoleApp.ContextLogic;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.ExpressionValues;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.Interfaces;
 
-namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.EquationExpressions
+namespace SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.EquationExpressions
 {
     public class SubtractExpression : IExpression
     {

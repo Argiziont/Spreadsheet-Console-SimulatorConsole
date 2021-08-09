@@ -1,4 +1,4 @@
-﻿namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces
+﻿namespace SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.Interfaces
 {
     public interface IExpressionVariable
     {

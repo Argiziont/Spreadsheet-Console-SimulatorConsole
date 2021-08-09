@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.EquationExpressions;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.EquationExpressions;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.ExpressionValues;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.Interfaces;
 
 namespace SpreadsheetSimulatorConsoleApp.TableLogic
 {

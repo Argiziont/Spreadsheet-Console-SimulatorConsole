@@ -2,16 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
+using System.Threading.Tasks;
 using SpreadsheetSimulatorConsoleApp.ContextLogic;
 using SpreadsheetSimulatorConsoleApp.Exceptions;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.ExpressionValues;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.Interfaces;
 using SpreadsheetSimulatorConsoleApp.Extensions;
 using SpreadsheetSimulatorConsoleApp.TableLogic;
 
 namespace SpreadsheetSimulatorConsoleApp
 {
+
+    /*
+     *  =A2+B1  =B2
+     *  =B2+B1  =7
+     */
     internal static class Program
     {
         private static void Main()
@@ -26,7 +31,7 @@ namespace SpreadsheetSimulatorConsoleApp
             }
             catch (ArgumentException)
             {
-                Console.WriteLine("Not enough arguments");
+                Console.WriteLine("#Wrong size arguments");
                 return;
             }
 
@@ -40,43 +45,60 @@ namespace SpreadsheetSimulatorConsoleApp
             var tableDictionary =
                 tableSet as Dictionary<string, string>[] ?? tableSet.ToArray(); // Enumerating dictionary to array
 
-            ExpressionContext expressionContext = ContextFactory<ExpressionContext>.CreateContext(tableDictionary);
+            SimpleExpressionContext simpleExpressionContext = ContextFactory<SimpleExpressionContext>.CreateContext(tableDictionary);
 
 
-            PrintOutput(tableDictionary, expressionContext);
+            var interpretResults=CalculateOutput(tableDictionary, simpleExpressionContext);
+            PrintOutput(interpretResults);
         }
 
-        private static void PrintOutput(IEnumerable<Dictionary<string, string>> tableDictionary,
-            ExpressionContext expressionContext)
+        private static IEnumerable<Dictionary<string, string>> CalculateOutput(Dictionary<string, string>[] tableDictionary,
+            SimpleExpressionContext simpleExpressionContext)
         {
             if (tableDictionary == null) throw new ArgumentNullException(nameof(tableDictionary));
-            if (expressionContext == null) throw new ArgumentNullException(nameof(expressionContext));
+            if (simpleExpressionContext == null) throw new ArgumentNullException(nameof(simpleExpressionContext));
+
+            var resultingTableDictionary = tableDictionary;
+
+            for (int i = 0; i < resultingTableDictionary.Count(); i++)
+            {
+                int iterator = i;
+                Parallel.ForEach(resultingTableDictionary[i].Keys.ToList(), cellName =>
+                {
+                    IExpression contextCell = simpleExpressionContext.GetVariable(cellName);
+                    try
+                    {
+                        resultingTableDictionary[iterator][cellName] = ExpressionValueResolver.Resolve(simpleExpressionContext,
+                            contextCell.Interpret(simpleExpressionContext));
+                    }
+                    catch (CircularReferenceException e)
+                    {
+                        resultingTableDictionary[iterator][cellName] = e.Message;
+                    }
+                    catch (ArgumentException e)
+                    {
+                        resultingTableDictionary[iterator][cellName] = e.Message;
+                    }
+
+                   
+                });
+            }
+
+            return resultingTableDictionary;
+        }
+        private static void PrintOutput(IEnumerable<Dictionary<string, string>> tableDictionary)
+        {
+            if (tableDictionary == null) throw new ArgumentNullException(nameof(tableDictionary));
+
 
             StringBuilder tableBuilder = new StringBuilder();
 
             tableBuilder.AppendLine("\n-------Results-------\n");
             foreach (var column in tableDictionary.Transpose())
             {
-                foreach ((string cellName, string _) in column)
+                foreach (var cell in column)
                 {
-                    IExpression contextCell = expressionContext.GetVariable(cellName);
-
-                    try
-                    {
-                        IExpression
-                            interpretedCell =
-                                contextCell.Interpret(
-                                    expressionContext); //Interpreting all cells and output to console
-                        tableBuilder.Append(ExpressionValueResolver.Resolve(expressionContext, interpretedCell) + "\t");
-                    }
-                    catch (CircularReferenceException e)
-                    {
-                        tableBuilder.Append(e.Message + "\t");
-                    }
-                    catch (ArgumentException e)
-                    {
-                        tableBuilder.Append(e.Message + "\t");
-                    }
+                    tableBuilder.Append(cell.Value + "\t");
                 }
 
                 tableBuilder.AppendLine();

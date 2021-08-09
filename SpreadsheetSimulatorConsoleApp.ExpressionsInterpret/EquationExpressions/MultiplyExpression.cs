@@ -1,16 +1,15 @@
 ﻿using System;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
-using SpreadsheetSimulatorConsoleApp.ContextLogic;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.ExpressionValues;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.Interfaces;
 
-namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.EquationExpressions
+namespace SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.EquationExpressions
 {
-    public class DivideExpression : IExpression
+    public class MultiplyExpression : IExpression
     {
         private readonly IExpression _leftExpression;
         private readonly IExpression _rightExpression;
 
-        public DivideExpression(IExpression left, IExpression right)
+        public MultiplyExpression(IExpression left, IExpression right)
         {
             _leftExpression = left ?? throw new ArgumentNullException(nameof(left));
             _rightExpression = right ?? throw new ArgumentNullException(nameof(right));
@@ -22,18 +21,18 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.EquationExpressions
 
             if (_leftExpression.Interpret(expressionContext) is NumberExpressionValue leftExpression &&
                 _rightExpression.Interpret(expressionContext) is NumberExpressionValue rightExpression)
-                return new NumberExpressionValue(leftExpression.GetValue(expressionContext) /
+                return new NumberExpressionValue(leftExpression.GetValue(expressionContext) *
                                                  rightExpression.GetValue(expressionContext));
 
             if (_leftExpression.Interpret(expressionContext) is StringExpressionValue &&
                 _rightExpression.Interpret(expressionContext) is StringExpressionValue)
-                return new StringExpressionValue("#Couldn't divide strings");
+                return new StringExpressionValue("#Couldn't multiply strings");
 
             if (_leftExpression.Interpret(expressionContext) is EmptyExpressionValue &&
                 _rightExpression.Interpret(expressionContext) is EmptyExpressionValue)
-                return new StringExpressionValue("#Couldn't divide empty cells");
+                return new StringExpressionValue("#Couldn't multiply empty cells");
 
-            return new StringExpressionValue("#Couldn't divide different types");
+            return new StringExpressionValue("#Couldn't multiply different types");
         }
     }
 }

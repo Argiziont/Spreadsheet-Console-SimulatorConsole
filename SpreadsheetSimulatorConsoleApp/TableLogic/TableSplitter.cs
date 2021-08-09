@@ -23,10 +23,17 @@ namespace SpreadsheetSimulatorConsoleApp.TableLogic
                 throw new ArgumentException(nameof(inputText));
             }
 
-            int tableWidth = Convert.ToInt32(tableSize.Last());
-            int tableHeight = Convert.ToInt32(tableSize.First());
-
-            return new TableSizes(tableWidth, tableHeight);
+            try
+            {
+                int tableWidth = Convert.ToInt32(tableSize.Last());
+                int tableHeight = Convert.ToInt32(tableSize.First());
+                return new TableSizes(tableWidth, tableHeight);
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException(nameof(inputText));
+            }
+          
         }
 
         public static IEnumerable<Dictionary<string, string>> GetTableDictionary(string inputText,

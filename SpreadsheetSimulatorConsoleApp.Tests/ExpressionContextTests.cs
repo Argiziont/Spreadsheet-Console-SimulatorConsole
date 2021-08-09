@@ -1,7 +1,6 @@
 ﻿using System;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues;
 using SpreadsheetSimulatorConsoleApp.ContextLogic;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.ExpressionValues;
 using Xunit;
 
 namespace SpreadsheetSimulatorConsoleApp.Tests
@@ -12,7 +11,7 @@ namespace SpreadsheetSimulatorConsoleApp.Tests
         public void SetVariableCreatesNewVariable()
         {
             //Arrange
-            ExpressionContext context = new ExpressionContext();
+            SimpleExpressionContext context = new SimpleExpressionContext();
 
             //Act
             context.SetVariable(new ExpressionVariable("A1", new EmptyExpressionValue()));
@@ -26,7 +25,7 @@ namespace SpreadsheetSimulatorConsoleApp.Tests
         public void SetVariableReplacesOldVariable()
         {
             //Arrange
-            ExpressionContext context = new ExpressionContext();
+            SimpleExpressionContext context = new SimpleExpressionContext();
             context.SetVariable(new ExpressionVariable("A1", new EmptyExpressionValue()));
 
             //Act

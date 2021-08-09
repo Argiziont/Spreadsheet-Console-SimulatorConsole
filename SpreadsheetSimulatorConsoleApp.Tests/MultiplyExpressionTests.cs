@@ -1,8 +1,7 @@
-﻿using SpreadsheetSimulatorConsoleApp.CellExpressionLogic;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.EquationExpressions;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
-using SpreadsheetSimulatorConsoleApp.ContextLogic;
+﻿using SpreadsheetSimulatorConsoleApp.ContextLogic;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.EquationExpressions;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.ExpressionValues;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.Interfaces;
 using Xunit;
 
 namespace SpreadsheetSimulatorConsoleApp.Tests
@@ -13,7 +12,7 @@ namespace SpreadsheetSimulatorConsoleApp.Tests
         public void InterpretMultiplyNumbersCorrectly()
         {
             //Arrange
-            ExpressionContext context = new ExpressionContext();
+            SimpleExpressionContext context = new SimpleExpressionContext();
             context.SetVariable(new ExpressionVariable("A1", new NumberExpressionValue(5)));
             context.SetVariable(new ExpressionVariable("A2", new NumberExpressionValue(15)));
 
@@ -31,7 +30,7 @@ namespace SpreadsheetSimulatorConsoleApp.Tests
         public void InterpretMultiplyStringsCorrectly()
         {
             //Arrange
-            ExpressionContext context = new ExpressionContext();
+            SimpleExpressionContext context = new SimpleExpressionContext();
             context.SetVariable(new ExpressionVariable("A1", new StringExpressionValue("Test")));
             context.SetVariable(new ExpressionVariable("A2", new StringExpressionValue("Test")));
 
@@ -49,7 +48,7 @@ namespace SpreadsheetSimulatorConsoleApp.Tests
         public void InterpretMultiplyEmptyCellsCorrectly()
         {
             //Arrange
-            ExpressionContext context = new ExpressionContext();
+            SimpleExpressionContext context = new SimpleExpressionContext();
             context.SetVariable(new ExpressionVariable("A1", new EmptyExpressionValue()));
             context.SetVariable(new ExpressionVariable("A2", new EmptyExpressionValue()));
 
@@ -67,7 +66,7 @@ namespace SpreadsheetSimulatorConsoleApp.Tests
         public void InterpretMultiplyDifferentTypes()
         {
             //Arrange
-            ExpressionContext context = new ExpressionContext();
+            SimpleExpressionContext context = new SimpleExpressionContext();
             context.SetVariable(new ExpressionVariable("A1", new StringExpressionValue("Test")));
             context.SetVariable(new ExpressionVariable("A2", new EmptyExpressionValue()));
 

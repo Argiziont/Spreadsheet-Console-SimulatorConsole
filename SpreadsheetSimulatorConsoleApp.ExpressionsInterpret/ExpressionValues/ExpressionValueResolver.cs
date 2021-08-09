@@ -1,8 +1,7 @@
 ﻿using System;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
-using SpreadsheetSimulatorConsoleApp.ContextLogic;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.Interfaces;
 
-namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues
+namespace SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.ExpressionValues
 {
     public static class ExpressionValueResolver
     {

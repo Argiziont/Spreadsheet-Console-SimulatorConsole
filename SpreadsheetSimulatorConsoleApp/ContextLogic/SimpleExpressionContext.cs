@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.Interfaces;
 
 namespace SpreadsheetSimulatorConsoleApp.ContextLogic
 {
-    public class ExpressionContext : IExpressionContext
+    public class SimpleExpressionContext : IExpressionContext
     {
         private readonly Dictionary<string, IExpression> _cells;
 
-        public ExpressionContext()
+        public SimpleExpressionContext()
         {
             _cells = new Dictionary<string, IExpression>();
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.ExpressionValues;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.Interfaces;
 using SpreadsheetSimulatorConsoleApp.TableLogic;
 
 namespace SpreadsheetSimulatorConsoleApp.ContextLogic
