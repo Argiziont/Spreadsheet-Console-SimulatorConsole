@@ -7,7 +7,7 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues
     public class EmptyExpressionValue : IExpression, IVariable<string>
     {
         private readonly string _name;
-        private readonly string _variable;
+        private readonly string _value;
 
         public EmptyExpressionValue(IExpressionVariable expressionVariable)
         {
@@ -16,7 +16,7 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues
 
         public EmptyExpressionValue()
         {
-            _variable = string.Empty;
+            _value = string.Empty;
         }
 
         public IExpression Interpret(IExpressionContext expressionContext)
@@ -33,7 +33,7 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues
 
         public string GetValue(IExpressionContext expressionContext)
         {
-            return _variable;
+            return _value;
         }
     }
 }

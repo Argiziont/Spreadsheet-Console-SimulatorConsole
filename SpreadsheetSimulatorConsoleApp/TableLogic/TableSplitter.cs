@@ -18,6 +18,10 @@ namespace SpreadsheetSimulatorConsoleApp.TableLogic
             var tableTextArray = inputText.Split(RowSplitter).ToList();
             //Evaluating size of the table
             var tableSize = tableTextArray.First().Split(ColumnSplitter).ToList();
+            if (tableSize.Count != 2)
+            {
+                throw new ArgumentException(nameof(inputText));
+            }
 
             int tableWidth = Convert.ToInt32(tableSize.Last());
             int tableHeight = Convert.ToInt32(tableSize.First());

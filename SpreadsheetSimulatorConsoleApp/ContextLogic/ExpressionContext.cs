@@ -8,28 +8,31 @@ namespace SpreadsheetSimulatorConsoleApp.ContextLogic
 {
     public class ExpressionContext : IExpressionContext
     {
-        private readonly Dictionary<string, IExpression> _variables;
+        private readonly Dictionary<string, IExpression> _cells;
 
         public ExpressionContext()
         {
-            _variables = new Dictionary<string, IExpression>();
+            _cells = new Dictionary<string, IExpression>();
         }
 
         public IExpression GetVariable(string expressionName)
         {
             if (expressionName == null) throw new ArgumentNullException(nameof(expressionName));
 
-            return _variables[expressionName];
+            if (_cells.ContainsKey(expressionName))
+                return _cells[expressionName];
+
+            throw new ArgumentException("#This cell contains non existing reference");
         }
 
         public void SetVariable(IExpressionVariable expressionVariable)
         {
             if (expressionVariable == null) throw new ArgumentNullException(nameof(expressionVariable));
 
-            if (_variables.ContainsKey(expressionVariable.Name))
-                _variables[expressionVariable.Name] = expressionVariable.Expression;
+            if (_cells.ContainsKey(expressionVariable.Name))
+                _cells[expressionVariable.Name] = expressionVariable.Expression;
             else
-                _variables.Add(expressionVariable.Name, expressionVariable.Expression);
+                _cells.Add(expressionVariable.Name, expressionVariable.Expression);
         }
     }
 }

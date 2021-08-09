@@ -17,20 +17,23 @@ namespace SpreadsheetSimulatorConsoleApp
         private static void Main()
         {
             string text = Console.ReadLine();
+            
+            TableSizes tableSizes;
 
-            TableSizes tableSizes = TableSplitter.GetTableSizes(text);
+            try
+            {
+                tableSizes = TableSplitter.GetTableSizes(text);
+            }
+            catch (ArgumentException)
+            {
+                Console.WriteLine("Not enough arguments");
+                return;
+            }
+
             StringBuilder tableBuilder = new StringBuilder();
             for (int i = 0; i < tableSizes.Height; i++) tableBuilder.AppendLine(Console.ReadLine());
 
             text = tableBuilder.ToString();
-
-            /*
-             *3             4
-             *12            =C2          3          'Sample
-             *=A1+B1*C1/5   =A2*B1       =B3-C3     'Spread
-             *'Test         =4-3         5          'Sheet       
-             */
-
 
             var tableSet = TableSplitter.GetTableDictionary(text, tableSizes);
 
@@ -63,10 +66,14 @@ namespace SpreadsheetSimulatorConsoleApp
                         IExpression
                             interpretedCell =
                                 contextCell.Interpret(
-                                    expressionContext); //Interpreting all cells and outputing to console
+                                    expressionContext); //Interpreting all cells and output to console
                         tableBuilder.Append(ExpressionValueResolver.Resolve(expressionContext, interpretedCell) + "\t");
                     }
                     catch (CircularReferenceException e)
+                    {
+                        tableBuilder.Append(e.Message + "\t");
+                    }
+                    catch (ArgumentException e)
                     {
                         tableBuilder.Append(e.Message + "\t");
                     }

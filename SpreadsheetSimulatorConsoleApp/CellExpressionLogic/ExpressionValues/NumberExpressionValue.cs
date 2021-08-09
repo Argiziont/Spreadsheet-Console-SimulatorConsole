@@ -8,7 +8,7 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues
     public class NumberExpressionValue : IExpression, IVariable<int>
     {
         private readonly string _name;
-        private readonly int _variable;
+        private readonly int _value;
 
         public NumberExpressionValue(IExpressionVariable expressionVariable)
         {
@@ -17,9 +17,9 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues
             _name = expressionVariable.Name;
         }
 
-        public NumberExpressionValue(int variable)
+        public NumberExpressionValue(int value)
         {
-            _variable = variable;
+            _value = value;
         }
 
         public IExpression Interpret(IExpressionContext expressionContext)
@@ -39,7 +39,7 @@ namespace SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues
 
         public int GetValue(IExpressionContext expressionContext)
         {
-            return _variable;
+            return _value;
         }
     }
 }
