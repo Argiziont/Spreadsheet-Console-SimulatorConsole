@@ -13,7 +13,7 @@ namespace SpreadsheetSimulatorConsoleApp.TableLogic
         public static TableSizes GetTableSizes(string inputText)
         {
             if (inputText == null) throw new ArgumentNullException(nameof(inputText));
-            //
+
 
             var tableTextArray = inputText.Split(RowSplitter).ToList();
             //Evaluating size of the table

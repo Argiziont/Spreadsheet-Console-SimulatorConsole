@@ -1,5 +1,4 @@
-﻿using SpreadsheetSimulatorConsoleApp.CellExpressionLogic;
-using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.EquationExpressions;
+﻿using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.EquationExpressions;
 using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.ExpressionValues;
 using SpreadsheetSimulatorConsoleApp.CellExpressionLogic.Interfaces;
 using SpreadsheetSimulatorConsoleApp.ContextLogic;
