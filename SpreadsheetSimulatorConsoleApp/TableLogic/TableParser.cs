@@ -29,6 +29,7 @@ namespace SpreadsheetSimulatorConsoleApp.TableLogic
         }
 
         //  ‘+’ | ‘-‘ | ‘*’ | ‘/’ 
+        //Firstly calculating ‘+’ and ‘-‘ because it would be low level priority operation
         private static IExpression SolveEquation(string equation)
         {
             if (equation == null) throw new ArgumentNullException(nameof(equation));
