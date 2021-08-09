@@ -21,6 +21,25 @@ namespace SpreadsheetSimulatorConsoleApp
     {
         private static void Main()
         {
+
+
+            //var numbers = new Queue<int>();
+
+            //numbers.Enqueue(3); // очередь 3
+            //numbers.Enqueue(5); // очередь 3, 5
+            //numbers.Enqueue(8); // очередь 3, 5, 8
+            //// получаем первый элемент очереди
+            //int queueElement = numbers.Dequeue();
+            //Console.WriteLine(queueElement);
+            //numbers.Enqueue(queueElement);
+            //queueElement = numbers.Dequeue();
+            //Console.WriteLine(queueElement);
+            //numbers.Enqueue(queueElement);
+            //queueElement = numbers.Dequeue();
+            //Console.WriteLine(queueElement);
+            //numbers.Enqueue(queueElement);
+
+
             string text = Console.ReadLine();
             
             TableSizes tableSizes;
@@ -45,7 +64,7 @@ namespace SpreadsheetSimulatorConsoleApp
             var tableDictionary =
                 tableSet as Dictionary<string, string>[] ?? tableSet.ToArray(); // Enumerating dictionary to array
 
-            SimpleExpressionContext simpleExpressionContext = ContextFactory<SimpleExpressionContext>.CreateContext(tableDictionary);
+            CellBasedExpressionContext simpleExpressionContext = ContextFactory<CellBasedExpressionContext>.CreateContext(tableDictionary);
 
 
             var interpretResults=CalculateOutput(tableDictionary, simpleExpressionContext);
@@ -53,7 +72,7 @@ namespace SpreadsheetSimulatorConsoleApp
         }
 
         private static IEnumerable<Dictionary<string, string>> CalculateOutput(Dictionary<string, string>[] tableDictionary,
-            SimpleExpressionContext simpleExpressionContext)
+            IExpressionContext simpleExpressionContext)
         {
             if (tableDictionary == null) throw new ArgumentNullException(nameof(tableDictionary));
             if (simpleExpressionContext == null) throw new ArgumentNullException(nameof(simpleExpressionContext));
@@ -63,13 +82,17 @@ namespace SpreadsheetSimulatorConsoleApp
             for (int i = 0; i < resultingTableDictionary.Count(); i++)
             {
                 int iterator = i;
-                Parallel.ForEach(resultingTableDictionary[i].Keys.ToList(), cellName =>
+                //Parallel.ForEach(resultingTableDictionary[i].Keys.ToList(), cellName =>
+                foreach (string cellName in resultingTableDictionary[i].Keys.ToList())
                 {
-                    IExpression contextCell = simpleExpressionContext.GetVariable(cellName);
+                    
                     try
                     {
+                        simpleExpressionContext.InterpretVariable(cellName);
+                        IExpression contextCell = simpleExpressionContext.GetVariable(cellName);
+                        
                         resultingTableDictionary[iterator][cellName] = ExpressionValueResolver.Resolve(simpleExpressionContext,
-                            contextCell.Interpret(simpleExpressionContext));
+                            contextCell);
                     }
                     catch (CircularReferenceException e)
                     {
@@ -81,7 +104,8 @@ namespace SpreadsheetSimulatorConsoleApp
                     }
 
                    
-                });
+                }
+                //);
             }
 
             return resultingTableDictionary;

@@ -1,24 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.Interfaces;
 
 namespace SpreadsheetSimulatorConsoleApp.ContextLogic
 {
-    public class SimpleExpressionContext : IExpressionContext
+    public class CellBasedExpressionContext:IExpressionContext
     {
-        private readonly Dictionary<string, IExpression> _cells;
+        private readonly Dictionary<string, Cell> _cells;
 
-        public SimpleExpressionContext()
+        public CellBasedExpressionContext()
         {
-            _cells = new Dictionary<string, IExpression>();
+            _cells = new Dictionary<string, Cell>();
         }
 
         public IExpression GetVariable(string expressionName)
         {
+            var test = _cells.Select(t => t.Value.CellState);
+
             if (expressionName == null) throw new ArgumentNullException(nameof(expressionName));
 
             if (_cells.ContainsKey(expressionName))
-                return _cells[expressionName];
+            {
+                switch (_cells[expressionName].CellState)
+                {
+                    case CellState.Waiting:
+                        return _cells[expressionName].CalculateCell();
+                    case CellState.Done:
+                        return _cells[expressionName].GetExpression();
+                }
+            }
 
             throw new ArgumentException("#This cell contains non existing reference");
         }
@@ -27,10 +38,9 @@ namespace SpreadsheetSimulatorConsoleApp.ContextLogic
         {
             if (expressionVariable == null) throw new ArgumentNullException(nameof(expressionVariable));
 
-            if (_cells.ContainsKey(expressionVariable.Name))
-                _cells[expressionVariable.Name] = expressionVariable.Expression;
-            else
-                _cells.Add(expressionVariable.Name, expressionVariable.Expression);
+            if (!_cells.ContainsKey(expressionVariable.Name))
+                _cells[expressionVariable.Name] = new Cell(expressionVariable.Expression,this);
+
         }
 
         public void InterpretVariable(string expressionName)
@@ -38,7 +48,7 @@ namespace SpreadsheetSimulatorConsoleApp.ContextLogic
             if (expressionName == null) throw new ArgumentNullException(nameof(expressionName));
 
             if (_cells.ContainsKey(expressionName))
-                _cells[expressionName].Interpret(this);
+                _cells[expressionName].CalculateCell();
         }
     }
 }

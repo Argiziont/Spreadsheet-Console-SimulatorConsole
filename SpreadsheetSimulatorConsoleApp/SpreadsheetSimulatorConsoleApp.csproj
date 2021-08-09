@@ -6,11 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SpreadsheetSimulatorConsoleApp.ExpressionsInterpret\SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.csproj" />
+    <Compile Remove="CellExpressionLogic\**" />
+    <EmbeddedResource Remove="CellExpressionLogic\**" />
+    <None Remove="CellExpressionLogic\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CellExpressionLogic\" />
+    <ProjectReference Include="..\SpreadsheetSimulatorConsoleApp.ExpressionsInterpret\SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.csproj" />
   </ItemGroup>
 
 </Project>

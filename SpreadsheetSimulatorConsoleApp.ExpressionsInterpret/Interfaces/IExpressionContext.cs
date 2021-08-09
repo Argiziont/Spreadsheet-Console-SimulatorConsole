@@ -4,5 +4,6 @@
     {
         public IExpression GetVariable(string expressionName);
         public void SetVariable(IExpressionVariable expressionVariable);
+        public void InterpretVariable(string expressionName);
     }
 }
