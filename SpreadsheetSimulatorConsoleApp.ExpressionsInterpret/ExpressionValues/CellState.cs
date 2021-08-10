@@ -1,4 +1,4 @@
-﻿namespace SpreadsheetSimulatorConsoleApp.ContextLogic
+﻿namespace SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.ExpressionValues
 {
     public enum CellState
     {

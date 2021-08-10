@@ -27,7 +27,7 @@ namespace SpreadsheetSimulatorConsoleApp.ContextLogic
 
             foreach (var column in tableDictionary)
             foreach ((string cellName, string cellValue) in column)
-                expressionContext.SetVariable(new ExpressionVariable(cellName, TableParser.ParseCell(cellValue)));
+                expressionContext.SetExpression(new ExpressionVariable(cellName, TableParser.ParseCell(cellValue)));
         }
     }
 }

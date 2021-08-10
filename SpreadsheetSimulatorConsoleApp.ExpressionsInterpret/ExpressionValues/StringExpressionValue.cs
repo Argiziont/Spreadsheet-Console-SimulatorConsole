@@ -24,7 +24,7 @@ namespace SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.ExpressionValues
         {
             if (expressionContext == null) throw new ArgumentNullException(nameof(expressionContext));
             IExpression resultingExpression =
-                _name != null ? expressionContext.GetVariable(_name).Interpret(expressionContext) : this;
+                _name != null ? expressionContext.GetCellExpression(_name).Interpret(expressionContext) : this;
 
             return !(resultingExpression is StringExpressionValue)
                 ? resultingExpression.Interpret(expressionContext)

@@ -13,8 +13,8 @@ namespace SpreadsheetSimulatorConsoleApp.Tests
         {
             //Arrange
             SimpleExpressionContext context = new SimpleExpressionContext();
-            context.SetVariable(new ExpressionVariable("A1", new NumberExpressionValue(5)));
-            context.SetVariable(new ExpressionVariable("A2", new NumberExpressionValue(15)));
+            context.SetExpression(new ExpressionVariable("A1", new NumberExpressionValue(5)));
+            context.SetExpression(new ExpressionVariable("A2", new NumberExpressionValue(15)));
 
             AddExpression expression = new AddExpression(new NumberExpressionValue(new ExpressionVariable("A1")), new NumberExpressionValue(new ExpressionVariable("A2")));
 
@@ -31,8 +31,8 @@ namespace SpreadsheetSimulatorConsoleApp.Tests
         {
             //Arrange
             SimpleExpressionContext context = new SimpleExpressionContext();
-            context.SetVariable(new ExpressionVariable("A1", new StringExpressionValue("Test")));
-            context.SetVariable(new ExpressionVariable("A2", new StringExpressionValue("Test")));
+            context.SetExpression(new ExpressionVariable("A1", new StringExpressionValue("Test")));
+            context.SetExpression(new ExpressionVariable("A2", new StringExpressionValue("Test")));
 
             AddExpression expression = new AddExpression(new StringExpressionValue(new ExpressionVariable("A1")), new StringExpressionValue(new ExpressionVariable("A2")));
 
@@ -49,8 +49,8 @@ namespace SpreadsheetSimulatorConsoleApp.Tests
         {
             //Arrange
             SimpleExpressionContext context = new SimpleExpressionContext();
-            context.SetVariable(new ExpressionVariable("A1", new EmptyExpressionValue()));
-            context.SetVariable(new ExpressionVariable("A2", new EmptyExpressionValue()));
+            context.SetExpression(new ExpressionVariable("A1", new EmptyExpressionValue()));
+            context.SetExpression(new ExpressionVariable("A2", new EmptyExpressionValue()));
 
             AddExpression expression = new AddExpression(new EmptyExpressionValue(new ExpressionVariable("A1")), new EmptyExpressionValue(new ExpressionVariable("A2")));
 
@@ -67,8 +67,8 @@ namespace SpreadsheetSimulatorConsoleApp.Tests
         {
             //Arrange
             SimpleExpressionContext context = new SimpleExpressionContext();
-            context.SetVariable(new ExpressionVariable("A1", new StringExpressionValue("Test")));
-            context.SetVariable(new ExpressionVariable("A2", new EmptyExpressionValue()));
+            context.SetExpression(new ExpressionVariable("A1", new StringExpressionValue("Test")));
+            context.SetExpression(new ExpressionVariable("A2", new EmptyExpressionValue()));
 
             AddExpression expression = new AddExpression(new StringExpressionValue(new ExpressionVariable("A1")), new EmptyExpressionValue(new ExpressionVariable("A2")));
 

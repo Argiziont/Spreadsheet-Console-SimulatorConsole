@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.ExpressionValues;
 using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.Interfaces;
 
 namespace SpreadsheetSimulatorConsoleApp.ContextLogic
@@ -13,32 +14,41 @@ namespace SpreadsheetSimulatorConsoleApp.ContextLogic
             _cells = new Dictionary<string, IExpression>();
         }
 
-        public IExpression GetVariable(string expressionName)
+        public IExpression GetCellExpression(string cellName)
         {
-            if (expressionName == null) throw new ArgumentNullException(nameof(expressionName));
+            if (cellName == null) throw new ArgumentNullException(nameof(cellName));
 
-            if (_cells.ContainsKey(expressionName))
-                return _cells[expressionName];
+            if (_cells.ContainsKey(cellName))
+                return _cells[cellName];
 
             throw new ArgumentException("#This cell contains non existing reference");
         }
 
-        public void SetVariable(IExpressionVariable expressionVariable)
+        public void SetExpression(IExpressionVariable expression)
         {
-            if (expressionVariable == null) throw new ArgumentNullException(nameof(expressionVariable));
+            if (expression == null) throw new ArgumentNullException(nameof(expression));
 
-            if (_cells.ContainsKey(expressionVariable.Name))
-                _cells[expressionVariable.Name] = expressionVariable.Expression;
+            if (_cells.ContainsKey(expression.Name))
+                _cells[expression.Name] = expression.Expression;
             else
-                _cells.Add(expressionVariable.Name, expressionVariable.Expression);
+                _cells.Add(expression.Name, expression.Expression);
         }
 
-        public void InterpretVariable(string expressionName)
+        public void InterpretCell(string cellName)
         {
-            if (expressionName == null) throw new ArgumentNullException(nameof(expressionName));
+            if (cellName == null) throw new ArgumentNullException(nameof(cellName));
 
-            if (_cells.ContainsKey(expressionName))
-                _cells[expressionName].Interpret(this);
+            if (_cells.ContainsKey(cellName))
+                _cells[cellName].Interpret(this);
+        }
+
+        public CellState GetCellState(string cellName)
+        {
+            if (cellName == null) throw new ArgumentNullException(nameof(cellName));
+
+            if (_cells.ContainsKey(cellName))
+                return CellState.Processing;
+            throw new ArgumentException("Dictionary doesn't contain this key");
         }
     }
 }

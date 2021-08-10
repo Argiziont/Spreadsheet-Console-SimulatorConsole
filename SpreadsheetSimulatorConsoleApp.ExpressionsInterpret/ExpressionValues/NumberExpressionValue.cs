@@ -25,11 +25,11 @@ namespace SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.ExpressionValues
         {
             if (expressionContext == null) throw new ArgumentNullException(nameof(expressionContext));
 
-            if (_name != null && this == expressionContext.GetVariable(_name))
+            if (_name != null && this == expressionContext.GetCellExpression(_name))
                 throw new CircularReferenceException("#Cell contains circular reference");
 
             IExpression resultingExpression =
-                _name != null ? expressionContext.GetVariable(_name).Interpret(expressionContext) : this;
+                _name != null ? expressionContext.GetCellExpression(_name).Interpret(expressionContext) : this;
 
             return !(resultingExpression is NumberExpressionValue)
                 ? resultingExpression.Interpret(expressionContext)

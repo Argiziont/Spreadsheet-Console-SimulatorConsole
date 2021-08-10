@@ -1,10 +1,13 @@
-﻿using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.Interfaces;
+﻿using System;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.Exceptions;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.ExpressionValues;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.Interfaces;
 
 namespace SpreadsheetSimulatorConsoleApp.ContextLogic
 {
     public class Cell
     {
-        public CellState CellState { get; private set; } = CellState.Waiting;
+        public CellState CellState { get; set; } = CellState.Waiting;
 
         private IExpression _cellExpression;
 
@@ -20,7 +23,21 @@ namespace SpreadsheetSimulatorConsoleApp.ContextLogic
         public IExpression CalculateCell()
         {
             CellState = CellState.Processing;
-            _cellExpression=_cellExpression.Interpret(_context);
+            try
+            {
+                _cellExpression = _cellExpression.Interpret(_context);
+
+            }
+            catch (CircularReferenceException e)
+            {
+                _cellExpression =new StringExpressionValue(e.Message) ;
+            }
+            catch (ArgumentException e)
+            {
+                _cellExpression = new StringExpressionValue(e.Message);
+            }
+
+          
             CellState = CellState.Done;
             return _cellExpression;
         }

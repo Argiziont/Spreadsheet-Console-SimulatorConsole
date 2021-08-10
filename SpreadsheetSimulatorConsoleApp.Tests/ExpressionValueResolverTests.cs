@@ -12,10 +12,10 @@ namespace SpreadsheetSimulatorConsoleApp.Tests
         {
             //Arrange
             SimpleExpressionContext context = new SimpleExpressionContext();
-            context.SetVariable(new ExpressionVariable("A1", new NumberExpressionValue(5)));
+            context.SetExpression(new ExpressionVariable("A1", new NumberExpressionValue(5)));
             
             //Act
-            string result = ExpressionValueResolver.Resolve(context, context.GetVariable("A1"));
+            string result = ExpressionValueResolver.Resolve(context, context.GetCellExpression("A1"));
 
             //Assert
             Assert.Equal("5", result);
@@ -26,10 +26,10 @@ namespace SpreadsheetSimulatorConsoleApp.Tests
         {
             //Arrange
             SimpleExpressionContext context = new SimpleExpressionContext();
-            context.SetVariable(new ExpressionVariable("A1", new StringExpressionValue("5")));
+            context.SetExpression(new ExpressionVariable("A1", new StringExpressionValue("5")));
 
             //Act
-            string result = ExpressionValueResolver.Resolve(context, context.GetVariable("A1"));
+            string result = ExpressionValueResolver.Resolve(context, context.GetCellExpression("A1"));
 
             //Assert
             Assert.Equal("5", result);
@@ -40,10 +40,10 @@ namespace SpreadsheetSimulatorConsoleApp.Tests
         {
             //Arrange
             SimpleExpressionContext context = new SimpleExpressionContext();
-            context.SetVariable(new ExpressionVariable("A1", new EmptyExpressionValue()));
+            context.SetExpression(new ExpressionVariable("A1", new EmptyExpressionValue()));
 
             //Act
-            string result = ExpressionValueResolver.Resolve(context, context.GetVariable("A1"));
+            string result = ExpressionValueResolver.Resolve(context, context.GetCellExpression("A1"));
 
             //Assert
             Assert.Equal(string.Empty, result);

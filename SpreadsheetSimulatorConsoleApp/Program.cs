@@ -1,47 +1,23 @@
-﻿using System;
+﻿using SpreadsheetSimulatorConsoleApp.ContextLogic;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.ExpressionValues;
+using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.Interfaces;
+using SpreadsheetSimulatorConsoleApp.ExpressionWorkersLogic;
+using SpreadsheetSimulatorConsoleApp.Extensions;
+using SpreadsheetSimulatorConsoleApp.TableLogic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using SpreadsheetSimulatorConsoleApp.ContextLogic;
-using SpreadsheetSimulatorConsoleApp.Exceptions;
-using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.ExpressionValues;
-using SpreadsheetSimulatorConsoleApp.ExpressionsInterpret.Interfaces;
-using SpreadsheetSimulatorConsoleApp.Extensions;
-using SpreadsheetSimulatorConsoleApp.TableLogic;
 
 namespace SpreadsheetSimulatorConsoleApp
 {
-
-    /*
-     *  =A2+B1  =B2
-     *  =B2+B1  =7
-     */
     internal static class Program
     {
         private static void Main()
         {
+            string text = "4\t4";
+            //Console.ReadLine();
 
-
-            //var numbers = new Queue<int>();
-
-            //numbers.Enqueue(3); // очередь 3
-            //numbers.Enqueue(5); // очередь 3, 5
-            //numbers.Enqueue(8); // очередь 3, 5, 8
-            //// получаем первый элемент очереди
-            //int queueElement = numbers.Dequeue();
-            //Console.WriteLine(queueElement);
-            //numbers.Enqueue(queueElement);
-            //queueElement = numbers.Dequeue();
-            //Console.WriteLine(queueElement);
-            //numbers.Enqueue(queueElement);
-            //queueElement = numbers.Dequeue();
-            //Console.WriteLine(queueElement);
-            //numbers.Enqueue(queueElement);
-
-
-            string text = Console.ReadLine();
-            
             TableSizes tableSizes;
 
             try
@@ -54,20 +30,27 @@ namespace SpreadsheetSimulatorConsoleApp
                 return;
             }
 
-            StringBuilder tableBuilder = new StringBuilder();
-            for (int i = 0; i < tableSizes.Height; i++) tableBuilder.AppendLine(Console.ReadLine());
+            //StringBuilder tableBuilder = new StringBuilder();
+            //for (int i = 0; i < tableSizes.Height; i++) tableBuilder.AppendLine(Console.ReadLine());
 
-            text = tableBuilder.ToString();
+            text = "=A2+C2\t=B2\t=A1+7\t'Test\r\n" +
+                   "=B2+D4\t28\t=58*2\t=A2\r\n" +
+                   "=A2*2\t=C2\t=D2+D3\t=A3+A2\r\n" +
+                   "17\t=B3\t=A1+7\t'Test";
+            //tableBuilder.ToString();
 
             var tableSet = TableSplitter.GetTableDictionary(text, tableSizes);
 
             var tableDictionary =
                 tableSet as Dictionary<string, string>[] ?? tableSet.ToArray(); // Enumerating dictionary to array
 
-            CellBasedExpressionContext simpleExpressionContext = ContextFactory<CellBasedExpressionContext>.CreateContext(tableDictionary);
+            CellBasedExpressionContext expressionContext = ContextFactory<CellBasedExpressionContext>.CreateContext(tableDictionary);
 
+            ExpressionWorkerFactory expressionWorkerFactory = new ExpressionWorkerFactory(expressionContext, tableDictionary.Select(dictionary => dictionary.Select(pair => pair.Key).ToArray()).Convert2DArrayTo1D());
+            expressionWorkerFactory.StartWork(expressionWorkerFactory.CreateWorkers());
 
-            var interpretResults=CalculateOutput(tableDictionary, simpleExpressionContext);
+            var interpretResults = CalculateOutput(tableDictionary, expressionContext);
+
             PrintOutput(interpretResults);
         }
 
@@ -82,30 +65,14 @@ namespace SpreadsheetSimulatorConsoleApp
             for (int i = 0; i < resultingTableDictionary.Count(); i++)
             {
                 int iterator = i;
-                //Parallel.ForEach(resultingTableDictionary[i].Keys.ToList(), cellName =>
                 foreach (string cellName in resultingTableDictionary[i].Keys.ToList())
                 {
-                    
-                    try
-                    {
-                        simpleExpressionContext.InterpretVariable(cellName);
-                        IExpression contextCell = simpleExpressionContext.GetVariable(cellName);
-                        
-                        resultingTableDictionary[iterator][cellName] = ExpressionValueResolver.Resolve(simpleExpressionContext,
-                            contextCell);
-                    }
-                    catch (CircularReferenceException e)
-                    {
-                        resultingTableDictionary[iterator][cellName] = e.Message;
-                    }
-                    catch (ArgumentException e)
-                    {
-                        resultingTableDictionary[iterator][cellName] = e.Message;
-                    }
 
-                   
+                    IExpression contextCell = simpleExpressionContext.GetCellExpression(cellName);
+
+                    resultingTableDictionary[iterator][cellName] = ExpressionValueResolver.Resolve(simpleExpressionContext,
+                        contextCell);
                 }
-                //);
             }
 
             return resultingTableDictionary;
