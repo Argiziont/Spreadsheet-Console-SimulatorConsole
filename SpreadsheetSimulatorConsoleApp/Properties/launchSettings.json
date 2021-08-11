@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SpreadsheetSimulatorConsoleApp": {
+      "commandName": "Project",
+      "commandLineArgs": "-file C:\\Users\\Argiziont\\source\\repos\\SpreadsheetSimulatorConsoleApp\\SpreadsheetSimulatorConsoleApp\\Table.txt"
+    }
+  }
+}

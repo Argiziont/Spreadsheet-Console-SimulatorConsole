@@ -7,39 +7,32 @@ using SpreadsheetSimulatorConsoleApp.TableLogic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
+using SpreadsheetSimulatorConsoleApp.ContextLogic.Readers;
+using SpreadsheetSimulatorConsoleApp.ContextLogic.Writers;
 
 namespace SpreadsheetSimulatorConsoleApp
 {
     internal static class Program
     {
-        private static void Main()
+        private static void Main(string[] args)
         {
-            string text = "4\t4";
-            //Console.ReadLine();
 
-            TableSizes tableSizes;
+            TableReader tableReader;
+            if (!args.Any())
+                Console.WriteLine("Specify way to read/write table: \n" +
+                                  "\t-console       :for console input\n" +
+                                  "\t-file [path]   :for processing table from file");
 
-            try
-            {
-                tableSizes = TableSplitter.GetTableSizes(text);
-            }
-            catch (ArgumentException)
-            {
-                Console.WriteLine("#Wrong size arguments");
+            if (args.Contains("-console"))
+                tableReader = new TableReader(new ConsoleReader());
+            else if (args.Contains("-file"))
+                tableReader = new TableReader(new FileReader(args.Last()));
+            else
                 return;
-            }
 
-            //StringBuilder tableBuilder = new StringBuilder();
-            //for (int i = 0; i < tableSizes.Height; i++) tableBuilder.AppendLine(Console.ReadLine());
-
-            text = "=A2+C2\t=B2\t=A1+7\t'Test\r\n" +
-                   "=B2+D4\t28\t=58*2\t=A2\r\n" +
-                   "=A2*2\t=C2\t=D2+D3\t=A3+A2\r\n" +
-                   "17\t=B3\t=A1+7\t'Test";
-            //tableBuilder.ToString();
-
-            var tableSet = TableSplitter.GetTableDictionary(text, tableSizes);
+            var tableSet = tableReader.GetStingContent();
 
             var tableDictionary =
                 tableSet as Dictionary<string, string>[] ?? tableSet.ToArray(); // Enumerating dictionary to array
@@ -51,7 +44,15 @@ namespace SpreadsheetSimulatorConsoleApp
 
             var interpretResults = CalculateOutput(tableDictionary, expressionContext);
 
-            PrintOutput(interpretResults);
+            TableWriter  tableWriter;
+            if (args.Contains("-console"))
+                tableWriter = new TableWriter(new ConsoleWriter(interpretResults));
+            else if (args.Contains("-file"))
+                tableWriter = new TableWriter(new FileWriter(interpretResults, args.Last()));
+            else
+                return;
+
+            tableWriter.WriteStingContent();
         }
 
         private static IEnumerable<Dictionary<string, string>> CalculateOutput(Dictionary<string, string>[] tableDictionary,
@@ -76,26 +77,6 @@ namespace SpreadsheetSimulatorConsoleApp
             }
 
             return resultingTableDictionary;
-        }
-        private static void PrintOutput(IEnumerable<Dictionary<string, string>> tableDictionary)
-        {
-            if (tableDictionary == null) throw new ArgumentNullException(nameof(tableDictionary));
-
-
-            StringBuilder tableBuilder = new StringBuilder();
-
-            tableBuilder.AppendLine("\n-------Results-------\n");
-            foreach (var column in tableDictionary.Transpose())
-            {
-                foreach (var cell in column)
-                {
-                    tableBuilder.Append(cell.Value + "\t");
-                }
-
-                tableBuilder.AppendLine();
-            }
-
-            Console.WriteLine(tableBuilder.ToString());
         }
     }
 }

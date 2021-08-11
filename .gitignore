@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/SpreadsheetSimulatorConsoleApp/Table.txt
+/SpreadsheetSimulatorConsoleApp/Table.txt.output.txt
